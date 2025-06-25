@@ -12,7 +12,7 @@ on:
 env:
   AWS_REGION: "us-east-1"
   ECR_REPOSITORY: "lks-gatus"
-  ECS_CLUSTER: "lks-dev-cluster"
+  ECS_CLUSTER: "lks-oss-cluster-dev"
   TOKEN: ${{ secrets.TOKEN }}
 
   LEANTIME_URL: ${{ secrets.LEANTIME_URL }}
