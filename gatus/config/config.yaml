@@ -1,24 +1,41 @@
 # FILL IN THE MISSING VALUES BELOW
 alerting:
-  ???:
+  github:
     token: "<github-token>" # WARN: DO NOT CHANGE THIS LINE
+    owner: project-sony
+    repository: devops-jatim-25
+    issue:
+      labels: ["monitoring", "gatus"]
+      title: "⚠️ Alert - {{ENDPOINT}} is down"
+      description: |
+        Gatus detected an issue with {{ENDPOINT}}:
+        - Status: {{STATUS}}
+        - Condition: {{CONDITION}}
+        - Timestamp: {{TIMESTAMP}}
+      failure-threshold: 3
+      success-threshold: 5
+      send-on-resolved: true
 # FILL IN THE MISSING VALUES ABOVE
 
 # FILL IN THE MISSING VALUES BELOW
 endpoints:
   - name: Leantime
     url: <leantime-url> # WARN: DO NOT CHANGE THIS LINE
-    interval:
+    interval: 30s
     conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 300"
     alerts:
-      - type: ???
+      - type: github
         description: "Sensei, Leantime is down! Please check and fix it."
 
   - name: Gatus
     url: <gatus-url> # WARN: DO NOT CHANGE THIS LINE
-    interval:
+    interval: 1m
     conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 500"
     alerts:
-      - type: ???
+      - type: github
         description: "Sensei, Gatus is down! Please check and fix it."
 # FILL IN THE MISSING VALUES BELOW

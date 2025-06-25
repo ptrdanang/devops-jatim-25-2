@@ -1,14 +1,52 @@
 {
-  // FILL IN THE MISSING VALUES BELOW
-  "family": "",
-  "taskRoleArn": "",
-  "executionRoleArn": "",
-  "networkMode": "",
-  "requiresCompatibilities": ???,
-  "cpu": "",
-  "memory": "",
-  "volumes": [],
-  // FILL IN THE MISSING VALUES ABOVE
+  "family": "lks-leantime-app",
+  "taskRoleArn": "arn:aws:iam::748381872886:role/LabRole",
+  "executionRoleArn": "arn:aws:iam::748381872886:role/LabRole",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "1024",
+  "memory": "2048",
+  "volumes": [
+    {
+      "name": "public-files",
+      "efsVolumeConfiguration": {
+          "fileSystemId": "fs-04a0abd1a1d24dd1e",
+          "rootDirectory": "/",
+          "transitEncryption": "ENABLED",
+          "authorizationConfig": {
+            "accessPointId": "fsap-051d1e0ca5e4e1dba",
+            "iam": "DISABLED"
+          }
+      }
+    },
+    {
+      "name": "userfiles",
+      "efsVolumeConfiguration": {
+          "fileSystemId": "fs-04a0abd1a1d24dd1e",
+          "rootDirectory": "/",
+          "transitEncryption": "ENABLED",
+          "authorizationConfig": {
+            "accessPointId": "fsap-09ea76dc6fa3e046d",
+            "iam": "DISABLED"
+          }
+      }
+    }, 
+    {
+      "name": "plugins",
+      "efsVolumeConfiguration": {
+          "fileSystemId": "fs-04a0abd1a1d24dd1e",
+          "rootDirectory": "/",
+          "transitEncryption": "ENABLED",
+          "authorizationConfig": {
+            "accessPointId": "fsap-0ff23889988d757b5",
+            "iam": "DISABLED"
+          }
+      }
+    }
+  ],
+
 
   "placementConstraints": [],
   "runtimePlatform": {
@@ -26,23 +64,68 @@
       "volumesFrom": [],
       "systemControls": [],
 
-      // FILL IN THE MISSING VALUES BELOW
-      "portMappings": [],
-      "secrets": [],
+      
+      "portMappings": [
+        {
+          "name": "port",
+          "containerPort": 8080,
+          "hostPort": 8080,
+          "protocol": "tcp",
+          "appProtocol": "http"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "LEAN_DB_DATABASE",
+          "valueFrom": "arn:aws:ssm:us-east-1:748381872886:parameter/lks/db/name"
+        },
+        {
+          "name": "LEAN_DB_HOST",
+          "valueFrom": "arn:aws:ssm:us-east-1:748381872886:parameter/lks/db/host"
+        },
+        {
+          "name": "LEAN_DB_PASSWORD",
+          "valueFrom": "arn:aws:ssm:us-east-1:748381872886:parameter/lks/db/password"
+        },
+        {
+          "name": "LEAN_DB_PORT",
+          "valueFrom": "arn:aws:ssm:us-east-1:748381872886:parameter/lks/db/port"
+        },
+        {
+          "name": "LEAN_DB_USER",
+          "valueFrom": "arn:aws:ssm:us-east-1:748381872886:parameter/lks/db/username"
+        }
+      ],
       "environment": [],
-      "mountPoints": [],
+      "mountPoints": [
+        {
+          "sourceVolume": "public-files",
+          "containerPath": "/var/www/html/public/userfiles",
+          "readOnly": false
+        },
+        {
+          "sourceVolume": "userfiles",
+          "containerPath": "/var/www/html/userfiles",
+          "readOnly": false
+        },
+        {
+          "sourceVolume": "plugins",
+          "containerPath": "/var/www/html/app/Plugins",
+          "readOnly": false
+        }
+      ],
       "logConfiguration": {
-        "logDriver": "???",
+        "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "???",
-          "awslogs-region": "???",
+          "awslogs-group": "/ecs/lks/leantime-app",
+          "awslogs-region": "us-east-1",
           "mode": "non-blocking",
           "awslogs-create-group": "true",
           "max-buffer-size": "25m",
           "awslogs-stream-prefix": "ecs"
         }
       }
-      // FILL IN THE MISSING VALUES ABOVE
+      
     }
   ]
 }
