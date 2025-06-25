@@ -6,6 +6,8 @@ on:
       - dev
     paths:
       - .github/workflows/lks-dev-pipeline.yaml
+      - gatus/**
+      - leantime/**
 
 env:
   AWS_REGION: "us-east-1"

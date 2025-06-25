@@ -13,7 +13,6 @@
       "name": "public-files",
       "efsVolumeConfiguration": {
           "fileSystemId": "fs-04a0abd1a1d24dd1e",
-          "rootDirectory": "/",
           "transitEncryption": "ENABLED",
           "authorizationConfig": {
             "accessPointId": "fsap-09a0a2c36cf66079f",
@@ -25,7 +24,6 @@
       "name": "userfiles",
       "efsVolumeConfiguration": {
           "fileSystemId": "fs-04a0abd1a1d24dd1e",
-          "rootDirectory": "/",
           "transitEncryption": "ENABLED",
           "authorizationConfig": {
             "accessPointId": "fsap-0e79d3ac7c8152ea6",
@@ -37,7 +35,6 @@
       "name": "plugins",
       "efsVolumeConfiguration": {
           "fileSystemId": "fs-04a0abd1a1d24dd1e",
-          "rootDirectory": "/",
           "transitEncryption": "ENABLED",
           "authorizationConfig": {
             "accessPointId": "fsap-07cc08b1b37ae4e9d",
@@ -67,11 +64,8 @@
       
       "portMappings": [
         {
-          "name": "port",
           "containerPort": 8080,
-          "hostPort": 8080,
-          "protocol": "tcp",
-          "appProtocol": "http"
+          "protocol": "tcp"
         }
       ],
       "secrets": [
@@ -100,7 +94,6 @@
         { "name": "PUID", "value": "1000" },
         { "name": "PGID", "value": "1000" },
         { "name": "LEAN_PORT", "value": "8080" },
-        { "name": "LEAN_APP_URL", "value": "http://${ALB_ENDPOINT}" },
         { "name": "LEAN_DEBUG", "value": "0" },
         { "name": "LEAN_SITENAME", "value": "LKS Leantime" },
         { "name": "LEAN_LANGUAGE", "value": "en-US" },
