@@ -7,9 +7,9 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  ECS_CLUSTER: spirited-hamster
-  ECS_SERVICE: leantime-task-service
-  ECS_TASK_DEFINITION: task-definition.json
+  ECS_CLUSTER: lks-oss-cluster-dev
+  ECS_SERVICE: lks-leantime-app-service
+  ECS_TASK_DEFINITION: leantime/task-definition.json
   CONTAINER_NAME: leantime
   IMAGE: leantime/leantime:latest
 

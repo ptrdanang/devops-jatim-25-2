@@ -12,11 +12,11 @@
     {
       "name": "public-files",
       "efsVolumeConfiguration": {
-        "fileSystemId": "fs-04a0abd1a1d24dd1e",
+        "fileSystemId": "fs-0b9290b5a251eeb61",
         "rootDirectory": "/",
         "transitEncryption": "ENABLED",
         "authorizationConfig": {
-          "accessPointId": "fsap-09a0a2c36cf66079f",
+          "accessPointId": "fsap-07e2f3b222945e82e",
           "iam": "ENABLED"
         }
       }
@@ -24,11 +24,11 @@
     {
       "name": "userfiles",
       "efsVolumeConfiguration": {
-        "fileSystemId": "fs-04a0abd1a1d24dd1e",
+        "fileSystemId": "fs-0b9290b5a251eeb61",
         "rootDirectory": "/",
         "transitEncryption": "ENABLED",
         "authorizationConfig": {
-          "accessPointId": "fsap-0e79d3ac7c8152ea6",
+          "accessPointId": "fsap-093468a685581477b",
           "iam": "ENABLED"
         }
       }
@@ -36,11 +36,11 @@
     {
       "name": "plugins",
       "efsVolumeConfiguration": {
-        "fileSystemId": "fs-04a0abd1a1d24dd1e",
+        "fileSystemId": "fs-0b9290b5a251eeb61",
         "rootDirectory": "/",
         "transitEncryption": "ENABLED",
         "authorizationConfig": {
-          "accessPointId": "fsap-07cc08b1b37ae4e9d",
+          "accessPointId": "fsap-088149353e4b6daab",
           "iam": "ENABLED"
         }
       }
@@ -59,29 +59,28 @@
       "portMappings": [
         {
           "containerPort": 8080,
-          "hostPort": 8080,
           "protocol": "tcp"
         }
       ],
       "secrets": [
         {
-          "name": "DB_DATABASE",
+          "name": "LEAN_DB_DATABASE",
           "valueFrom": "arn:aws:ssm:us-east-1:748381872886:parameter/lks/db/name"
         },
         {
-          "name": "DB_HOST",
+          "name": "LEAN_DB_HOST ",
           "valueFrom": "arn:aws:ssm:us-east-1:748381872886:parameter/lks/db/host"
         },
         {
-          "name": "DB_PASSWORD",
+          "name": "LEAN_DB_PASSWORD ",
           "valueFrom": "arn:aws:ssm:us-east-1:748381872886:parameter/lks/db/password"
         },
         {
-          "name": "DB_PORT",
+          "name": "LEAN_DB_PORT",
           "valueFrom": "arn:aws:ssm:us-east-1:748381872886:parameter/lks/db/port"
         },
         {
-          "name": "DB_USER",
+          "name": "LEAN_DB_USER",
           "valueFrom": "arn:aws:ssm:us-east-1:748381872886:parameter/lks/db/username"
         }
       ],
@@ -96,7 +95,7 @@
         },
         {
           "name": "LEAN_PORT",
-          "value": "80"
+          "value": "8080"
         },
         {
           "name": "LEAN_DEBUG",
