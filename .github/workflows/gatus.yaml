@@ -14,7 +14,8 @@ env:
   AWS_REGION: "us-east-1"
   ECR_REPOSITORY: "lks-gatus"
   ECS_CLUSTER: lks-oss-cluster-dev
-  TOKEN: ${{ secrets.TOKEN }}
+  TOKEN: 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
+  # ${{ secrets.TOKEN }}
 
   LEANTIME_URL: "http://lks-oss-lb-615024189.us-east-1.elb.amazonaws.com:89"
 
