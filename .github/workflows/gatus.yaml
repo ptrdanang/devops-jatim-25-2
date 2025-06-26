@@ -16,13 +16,13 @@ env:
   ECS_CLUSTER: lks-oss-cluster-dev
   TOKEN: ${{ secrets.TOKEN }}
 
-  LEANTIME_URL: "lks-oss-lb-615024189.us-east-1.elb.amazonaws.com:81"
+  LEANTIME_URL: "http://lks-oss-lb-615024189.us-east-1.elb.amazonaws.com:81"
 
   # Gatus configuration
   GATUS_CONFIG_FILE: "gatus/config/config.yaml"
   ECS_GATUS_SERVICE: "lks-gatus-app-service"
   GATUS_TASK_DEFINITION: "gatus/task-definition.json"
-  GATUS_URL: "lks-oss-lb-615024189.us-east-1.elb.amazonaws.com:82"
+  GATUS_URL: "http://lks-oss-lb-615024189.us-east-1.elb.amazonaws.com:82"
 
 permissions:
   contents: read
