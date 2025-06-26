@@ -1,0 +1,98 @@
+name: File yml in Github Actions
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - .github/workflows/lks-dev-pipeline.yaml
+      # - docker-stack.yml
+      - gatus/**
+      # - leantime/**
+
+
+env:
+  AWS_REGION: "us-east-1"
+  ECR_REPOSITORY: "lks-gatus"
+  ECS_CLUSTER: lks-oss-cluster-dev
+  TOKEN: ${{ secrets.TOKEN }}
+
+  LEANTIME_URL: "lks-oss-lb-615024189.us-east-1.elb.amazonaws.com:81"
+
+  # Gatus configuration
+  GATUS_CONFIG_FILE: "gatus/config/config.yaml"
+  ECS_GATUS_SERVICE: "lks-gatus-app-service"
+  GATUS_TASK_DEFINITION: "gatus/task-definition.json"
+  GATUS_URL: "lks-oss-lb-615024189.us-east-1.elb.amazonaws.com:82"
+
+permissions:
+  contents: read
+
+jobs:
+# -----
+  deploy-gatus:
+    name: Deploy Gatus App
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Update Configuration
+        env:
+          TOKEN: ${{ env.TOKEN }}
+          GATUS_URL: ${{ env.GATUS_URL }}
+          LEANTIME_URL: ${{ env.LEANTIME_URL }}
+        run: |
+          sed -i "s|<github-token>|$TOKEN|g" gatus/config/config.yaml
+          sed -i "s|<leantime-url>|$LEANTIME_URL|g" gatus/config/config.yaml
+          sed -i "s|<gatus-url>|$GATUS_URL|g" gatus/config/config.yaml
+          echo "Cofiguration updated."
+          cat gatus/config/config.yaml
+
+      - name: Get Short Commit Hash | ambil hash
+        run: echo "IMAGE_TAG=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+          # gunakan tas berdasarkan commit SHA sebagai tag
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f gatus/Dockerfile gatus
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push --all-tags $ECR_REGISTRY/$ECR_REPOSITORY
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          echo "IMAGE_FULL_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+
+      - name: Update ECS task definition
+        env:
+          GATUS_TASK_DEFINITION: ${{ env.GATUS_TASK_DEFINITION }}
+        run: |
+          sed -i "s|<task-def-image>|$IMAGE_FULL_URI|g" $GATUS_TASK_DEFINITION
+          echo "Task definition updated."
+          cat $GATUS_TASK_DEFINITION
+
+      - name: deploy ecs task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ env.GATUS_TASK_DEFINITION }}
+          service: ${{ env.ECS_GATUS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          force-new-deployment: true
+          run-task-tags: '[{"key": "name", "value": "lks-container-gatus"} ]'
