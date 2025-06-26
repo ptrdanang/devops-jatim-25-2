@@ -1,5 +1,4 @@
 name: File yml in Github Actions
-
 on:
   push:
     branches:
