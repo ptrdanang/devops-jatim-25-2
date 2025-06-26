@@ -2,4 +2,4 @@ FROM twinproduction/gatus:latest
 
 COPY ./config /config
 
-RUN ls -la /config
+RUN echo "Berhasil copy config:" && ls -la /config
