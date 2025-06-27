@@ -12,19 +12,19 @@ on:
   workflow_dispatch:
 
 env:
-  AWS_REGION: ${{ AWS_REGION }}
-  ECR_REPOSITORY: ${{ ECR_REPOSITORY }}
-  ECS_CLUSTER: ${{ ECS_CLUSTER }}
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+  ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
   TOKEN: ${{ secrets.TOKEN }}
 
   # Leantime configuration
-  ECS_LEANTIME_SERVICE: ${{ ECS_LEANTIME_SERVICE }}
+  ECS_LEANTIME_SERVICE: ${{ secrets.ECS_LEANTIME_SERVICE }}
   LEANTIME_TASK_DEFINITION: "leantime/task-definition.json"
   LEANTIME_URL: "http://${{ secrets.ALB_ENDPOINT }}"
 
   # Gatus configuration
   GATUS_CONFIG_FILE: "gatus/config/config.yaml"
-  ECS_GATUS_SERVICE:  ${{ ECS_GATUS_SERVICE }}
+  ECS_GATUS_SERVICE:  ${{ secrets.ECS_GATUS_SERVICE }}
   GATUS_TASK_DEFINITION: "gatus/task-definition.json"
   GATUS_URL: "http://${{ secrets.ALB_ENDPOINT }}:8080"
 
