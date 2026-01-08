@@ -77,7 +77,7 @@
         { "name": "LEAN_DB_PASSWORD", "valueFrom": "/lks/db/password" }
       ],
       "environment": [
-        { "name": "APP_URL", "value": "http://lks-oss-lb-18962027.us-east-1.elb.amazonaws.com" },
+        { "name": "APP_URL", "value": "http://lks-oss-lb-854876789.us-east-1.elb.amazonaws.com" },
         { "name": "APP_PORT", "value": "8080" },
         { "name": "SITENAME", "value": "Leantime" },
         { "name": "DEFAULT_TIMEZONE", "value": "Asia/Jakarta" }
