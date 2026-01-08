@@ -1,4 +1,4 @@
-name: Example Job - Deploy Leantime
+name: Deploy Leantime
 
 # FILL THE MISSING VALUES BELOW
 on:
