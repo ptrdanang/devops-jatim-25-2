@@ -51,7 +51,7 @@ jobs:
           cluster: ${{ env.ECS_CLUSTER }}
           force-new-deployment: true
     deploygatus:
-    name: Deploy Gatus App
+    name: Deploy Gatus 
     runs-on: ubuntu-latest
     environment: dev
     steps:
