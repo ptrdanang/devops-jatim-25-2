@@ -5,7 +5,7 @@ on:
   push:
     branch:
       - main
-    path:
+    path: 
       - leantime/*
       - gatus/*
 
@@ -17,7 +17,7 @@ env:
 
   ECS_LEANTIME_SERVICE: "leantime-service"
   LEANTIME_TASK_DEFINITION: "leantime/task-definition.json"
-  LEANTIME_URL: "??? ${{ secrets.ALB_ENDPOINT }}/auth/login"
+  LEANTIME_URL: "${{ secrets.ALB_ENDPOINT }}/auth/login"
   GATUS_URL: "${{ secrets.ALB_ENDPOINT }}:8080"
   ecs_gatus_service: "gatus-service"
   gatus_task_definition: "gatus/task-definition.json"
@@ -105,3 +105,4 @@ jobs:
           service: ${{ env.ecs_gatus_service }}
           cluster: ${{ env.ECS_CLUSTER }}
           force-new-deployment: true
+         
