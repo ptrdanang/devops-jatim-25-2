@@ -33,17 +33,16 @@
 
         }
       ],
-      "logConfiguration": {
+       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
           "awslogs-group": "/ecs/Iks-gatus-app",
-          "awslogs-region": "us-east-1",
-          "mode": "non-blocking",
           "awslogs-create-group": "true",
-          "max-buffer-size": "25m",
+          "awslogs-region": "us-east-1",
           "awslogs-stream-prefix": "ecs"
         }
       }
+      
     }
   ]
 }
