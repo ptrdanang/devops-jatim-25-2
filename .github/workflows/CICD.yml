@@ -50,8 +50,8 @@ jobs:
           service: ${{ env.ECS_LEANTIME_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           force-new-deployment: true
-    deploygatus:
-    name: Deploy Gatus 
+  deploygatus:
+    name: Deploy Gatus App
     runs-on: ubuntu-latest
     environment: dev
     steps:
